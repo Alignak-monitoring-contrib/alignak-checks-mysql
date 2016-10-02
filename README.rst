@@ -42,33 +42,9 @@ An abstract::
 
     $ make install
 
-    $ make install-root
-    $ # This for plugins requiring setuid (check_icmp ...)
-
 **Note**: replace */usr/local/var/libexec/alignak* according to your platform ...
 
-After compilation and installation, the plugins are installed in the */usr/local/libexec* directory.
-
-
-
-To use this checks package, you must first install some external plugins.
-We recommand that you download and install the Monitoring plugins: https://www.monitoring-plugins.org/download.html
-
-Check if it exists a binary package for your OS distribution rather than compiling and installing from source.
-Else, the source installation procedure is explained `here<https://www.monitoring-plugins.org/doc/faq/installation.html>`_.
-An abstract::
-
-    $ gzip -dc monitoring-plugins-2.x.tar.gz | tar -xf -
-    $ cd monitoring-plugins-2.x
-    $ ./configure
-    $ make
-
-    $ make install
-
-    $ make install-root
-    $ # This for plugins requiring setuid (check_icmp ...)
-
-After compilation and installation, the plugins are installed in the */usr/local/libexec* directory.
+After compilation and installation, the plugin is installed in the */usr/local/var/libexec/alignak* directory.
 
 Edit the */usr/local/etc/alignak/arbiter/packs/resource.d/mysql.cfg* file and configure the credentials
 to access to the mysql server.
@@ -77,6 +53,24 @@ to access to the mysql server.
     #-- MySQL default credentials
     $MYSQLUSER$=root
     $MYSQLPASSWORD$=root
+
+
+Install PERL dependencies for check_mysql_health plugin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You must install some PERL dependencies for the *check_mysql_health* script.
+
+On some Linux distros, you can::
+
+   su -
+   apt-get install dbi-perl
+   apt-get install dbd-mysql-perl
+
+Or you can use the PERL *cpan* utility::
+
+    cpan install DBI
+    cpan install DBD::mysql
+
+**Note**: you must have previously installed the mysql client for your operating system :)
 
 
 Alignak configuration
@@ -93,59 +87,59 @@ You simply have to tag the concerned hosts with the template `mysql`.
 
 The main `mysql` template declares macros used to configure the launched checks. The default values of these macros listed hereunder can be overriden in each host configuration.
 ::
-   _DOMAIN                          $DOMAIN$
-   _DOMAINUSERSHORT                 $DOMAINUSERSHORT$
-   _DOMAINUSER                      $_HOSTDOMAIN$\\$_HOSTDOMAINUSERSHORT$
-   _DOMAINPASSWORD                  $DOMAINPASSWORD$
 
-   _WINDOWS_DISK_WARN               90
-   _WINDOWS_DISK_CRIT               95
-   _WINDOWS_EVENT_LOG_WARN          1
-   _WINDOWS_EVENT_LOG_CRIT          2
-   _WINDOWS_REBOOT_WARN             15min:
-   _WINDOWS_REBOOT_CRIT             5min:
-   _WINDOWS_MEM_WARN                80
-   _WINDOWS_MEM_CRIT                90
-   _WINDOWS_ALL_CPU_WARN            80
-   _WINDOWS_ALL_CPU_CRIT            90
-   _WINDOWS_CPU_WARN                80
-   _WINDOWS_CPU_CRIT                90
-   _WINDOWS_LOAD_WARN               10
-   _WINDOWS_LOAD_CRIT               20
-   _WINDOWS_NET_WARN                80
-   _WINDOWS_NET_CRIT                90
-   _WINDOWS_EXCLUDED_AUTO_SERVICES
-   _WINDOWS_AUTO_SERVICES_WARN      0
-   _WINDOWS_AUTO_SERVICES_CRIT      1
-   _WINDOWS_BIG_PROCESSES_WARN      25
+    _MYSQLUSER                      $MYSQLUSER$
+    _MYSQLPASSWORD                  $MYSQLPASSWORD$
 
-   #Default Network Interface
-   _WINDOWS_NETWORK_INTERFACE       Ethernet
-
-   # Now some alert level for a windows host
-   _WINDOWS_SHARE_WARN              90
-   _WINDOWS_SHARE_CRIT              95
+    _UPTIME_WARN		            10:
+    _UPTIME_CRIT		             5:
+    _CONNECTIONTIME_WARN             1
+    _CONNECTIONTIME_CRIT             5
+    _QUERYCACHEHITRATE_WARN         90:
+    _QUERYCACHEHITRATE_CRIT         80:
+    _THREADSCONNECTED_WARN          10
+    _THREADSCONNECTED_CRIT          20
+    _QCACHEHITRATE_WARN             90:
+    _QCACHEHITRATE_CRIT             80:
+    _QCACHELOWMEMPRUNES_WARN         1
+    _QCACHELOWMEMPRUNES_CRIT        10
+    _KEYCACHEHITRATE_WARN           99:
+    _KEYCACHEHITRATE_CRIT           95:
+    _BUFFERPOOLHITRATE_WARN         99:
+    _BUFFERPOOLHITRATE_CRIT         95:
+    _BUFFERPOOLWAITFREE_WARN         1
+    _BUFFERPOOLWAITFREE_CRIT        10
+    _LOGWAITS_WARN                   1
+    _LOGWAITS_CRIT                  10
+    _TABLECACHEHITRATE_WARN         99:
+    _TABLECACHEHITRATE_CRIT         95:
+    _TABLELOCKCONTENTION_WARN        1
+    _TABLELOCKCONTENTION_CRIT        2
+    _INDEXUSAGE_WARN                90:
+    _INDEXUSAGE_CRIT                80:
+    _TMPDISKTABLES_WARN             25
+    _TMPDISKTABLES_CRIT             50
+    _SLOWQUERIES_WARN               0.1
+    _SLOWQUERIES_CRIT                1
+    _LONGRUNNINGPROCS_WARN          10
+    _LONGRUNNINGPROCS_CRIT          20
+    _OPENFILES_WARN                 80
+    _OPENFILES_CRIT                 95
+    _THREADCACHEHITRATE_WARN        99:
+    _THREADCACHEHITRATE_CRIT        95:
 
 
 To set a specific value for an host, declare the same macro in the host definition file.
 ::
    define host{
-      use                     windows-wmi
-      contact_groups          admins
-      host_name               sim-vm
-      address                 192.168.0.16
+        use                     mysql
+        contact_groups          admins
+        host_name               my_host
+        address                 192.168.0.16
 
-      # Specific values for this host
-      # Change warning and critical alerts level for memory
-      # Same for CPU, ALL_CPU, DISK, LOAD, NET, ...
-      _WINDOWS_MEM_WARN       10
-      _WINDOWS_MEM_CRIT       20
-
-      # Exclude some services from automatic start check
-      # Use a regexp that matches against the short or long service name as it can be seen in the properties of the service in Windows.
-      # The matching services are excluded in the resulting list.
-      # Example: (ShortName)|(ShortName)| ... |(ShortName)
-      _WINDOWS_EXCLUDED_AUTO_SERVICES (IAStorDataMgrSvc)|(MMCSS)|(ShellHWDetection)|(sppsvc)|(clr_optimization_v4.0.30319_32)
+        # Specific values for this host
+        _MYSQLUSER              root
+        _MYSQLPASSWORD          root_pwd
    }
 
 
