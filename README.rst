@@ -1,30 +1,51 @@
 Alignak checks package for Mysql
 ================================
 
-Checks pack for monitoring mysql database server
+*Checks pack for monitoring mysql database server*
 
+.. image:: https://badge.fury.io/py/alignak_checks_mysql.svg
+    :target: https://badge.fury.io/py/alignak-checks-mysql
+    :alt: Most recent PyPi version
+
+.. image:: https://img.shields.io/badge/IRC-%23alignak-1e72ff.svg?style=flat
+    :target: http://webchat.freenode.net/?channels=%23alignak
+    :alt: Join the chat #alignak on freenode.net
+
+.. image:: https://img.shields.io/badge/License-AGPL%20v3-blue.svg
+    :target: http://www.gnu.org/licenses/agpl-3.0
+    :alt: License AGPL v3
 
 Installation
 ------------
+
+The installation of this checks pack will copy some configuration files in the Alignak default configuration directory (eg. */usr/local/etc/alignak*). The copied files are located in the default sub-directory used for the packs (eg. *arbiter/packs*).
 
 From PyPI
 ~~~~~~~~~
 To install the package from PyPI:
 ::
-   pip install alignak-checks-mysql
+
+   sudo pip install alignak-checks-mysql
 
 
 From source files
 ~~~~~~~~~~~~~~~~~
 To install the package from the source files:
 ::
+
    git clone https://github.com/Alignak-monitoring-contrib/alignak-checks-mysql
-   cd alignak-checks-mysql
-   sudo python setup.py install
+   cd alignak-checks-linux-snmp
+   sudo pip install .
+
+**Note:** *using `sudo python setup.py install` will not correctly manage the package configuration files! The recommended way is really to use `pip`;)*
+
 
 
 Documentation
 -------------
+
+This checks pack is using the some PERL plugins that are shipped with the checks pack. As such, some more installation and preparation are necessary;)
+
 
 Configuration
 ~~~~~~~~~~~~~
@@ -46,8 +67,7 @@ An abstract::
 
 After compilation and installation, the plugin is installed in the */usr/local/var/libexec/alignak* directory.
 
-Edit the */usr/local/etc/alignak/arbiter/packs/resource.d/mysql.cfg* file and configure the credentials
-to access to the mysql server.
+Edit the */usr/local/etc/alignak/arbiter/packs/resource.d/mysql.cfg* file and configure the credentials to access to the mysql server.
 ::
 
     #-- MySQL default credentials
@@ -131,6 +151,7 @@ The main `mysql` template declares macros used to configure the launched checks.
 
 To set a specific value for an host, declare the same macro in the host definition file.
 ::
+
    define host{
         use                     mysql
         contact_groups          admins
@@ -146,11 +167,4 @@ To set a specific value for an host, declare the same macro in the host definiti
 Bugs, issues and contributing
 -----------------------------
 
-Contributions to this project are welcome and encouraged ... issues in the project repository are the common way to raise an information.
-
-License
--------
-
-Alignak Pack EXAMPLE is available under the `GPL version 3 license`_.
-
-.. _GPL version 3 license: http://opensource.org/licenses/GPL-3.0
+Contributions to this project are welcome and encouraged ... `issues in the project repository <https://github.com/alignak-monitoring-contrib/alignak-checks-mysql/issues>`_ are the common way to raise an information.
