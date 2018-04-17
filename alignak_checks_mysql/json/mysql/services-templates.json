@@ -1,12 +1,17 @@
 [
     {
         "_is_template": true,
+
+        "check_interval": 15,
+        "check_period": "24x7",
+        "max_check_attempts": 3,
+        "retry_interval": 1,
+
         "_realm": "All",
         "_sub_realm": true,
         "aggregation": "mysql",
         "active_checks_enabled": true,
         "alias": "",
-        "check_period": "24x7",
         "host": "_dummy",
         "imported_from": "alignak-checks-mysql",
         "initial_state": "x",
@@ -19,6 +24,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Connection (alive)",
         "check_command": "check_mysql_connection",
         "check_command_args": "",
@@ -27,6 +35,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Restart",
         "check_command": "check_mysql_uptime",
         "check_command_args": "",
@@ -35,6 +46,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Buffer pool wait free",
         "aggregation": "mysql/innodb",
         "check_command": "check_mysql_bufferpool_wait_free",
@@ -44,6 +58,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Log waits",
         "aggregation": "mysql/innodb",
         "check_command": "check_mysql_log_waits",
@@ -53,6 +70,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Index usage",
         "check_command": "check_mysql_index_usage",
         "check_command_args": "",
@@ -61,6 +81,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Long running processes",
         "check_command": "check_mysql_long_running_procs",
         "check_command_args": "",
@@ -69,6 +92,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Opened files",
         "check_command": "check_mysql_open_files",
         "check_command_args": "",
@@ -77,6 +103,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Slow queries",
         "check_command": "check_mysql_slow_queries",
         "check_command_args": "",
@@ -85,6 +114,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Table locks contention",
         "check_command": "check_mysql_table_lock_contention",
         "check_command_args": "",
@@ -93,6 +125,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Query cache hit rate",
         "aggregation": "mysql/cache",
         "check_command": "check_mysql_qcache_hitrate",
@@ -102,6 +137,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Query cache low memory prune",
         "aggregation": "mysql/cache",
         "check_command": "check_mysql_qcache_lowmem_prunes",
@@ -111,6 +149,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Query cache hit rate",
         "aggregation": "mysql/cache",
         "check_command": "check_mysql_keycache_hitrate",
@@ -120,6 +161,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Buffer pool hit rate",
         "aggregation": "mysql/cache",
         "check_command": "check_mysql_bufferpool_hitrate",
@@ -129,6 +173,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Table cache hit rate",
         "aggregation": "mysql/cache",
         "check_command": "check_mysql_tablecache_hitrate",
@@ -138,6 +185,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Thread cache hit rate",
         "aggregation": "mysql/cache",
         "check_command": "check_mysql_threadcache_hitrate",
@@ -147,6 +197,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Threads connected",
         "check_command": "check_mysql_threads_connected",
         "check_command_args": "",
@@ -155,6 +208,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Temporary tables on disk",
         "check_command": "check_mysql_tmp_disk_tables",
         "check_command_args": "",
@@ -163,6 +219,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Slave lag",
         "check_command": "check_mysql_slave_lag",
         "check_command_args": "",
@@ -171,6 +230,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Slave SQL running",
         "check_command": "check_mysql_slave_sql_running",
         "check_command_args": "",
@@ -179,6 +241,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Slave I/O running",
         "check_command": "check_mysql_slave_io_running",
         "check_command_args": "",
@@ -187,6 +252,9 @@
     },
     {
         "_is_template": true,
+        "_templates": [
+            "mysql-service"
+        ],
         "alias": "Cluster nbdb running",
         "check_command": "check_mysql_cluster_ndbd_running",
         "check_command_args": "",

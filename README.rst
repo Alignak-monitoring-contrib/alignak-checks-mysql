@@ -34,7 +34,7 @@ To install the package from the source files:
 ::
 
    git clone https://github.com/Alignak-monitoring-contrib/alignak-checks-mysql
-   cd alignak-checks-linux-snmp
+   cd alignak-checks-linux-mysql
    sudo pip install .
 
 **Note:** *using `sudo python setup.py install` will not correctly manage the package configuration files! The recommended way is really to use `pip`;)*
@@ -79,13 +79,25 @@ Install PERL dependencies for check_mysql_health plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 You must install some PERL dependencies for the *check_mysql_health* script.
 
-On some Linux distros, you can::
+Before installing PERL dependencies, you must install the mysql/mariadb client for your operating system.
+
+On FreeBSD, you can:
+::
+
+    pkg install mariadb102-client
+    cpan install DBI
+    cpan install DBD::mysql
+
+On some Linux distros, you can:
+::
 
    su -
+   apt-get install mariadb-client
    apt-get install dbi-perl
    apt-get install dbd-mysql-perl
 
-Or you can use the PERL *cpan* utility::
+Or you can use the PERL *cpan* utility:
+::
 
     cpan install DBI
     cpan install DBD::mysql
