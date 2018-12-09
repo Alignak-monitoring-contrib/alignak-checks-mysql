@@ -18,7 +18,7 @@ __pkg_name__ = u"alignak_checks_mysql"
 __checks_type__ = u"mysql"
 
 # Application manifest
-__version__ = u"1.2.0"
+__version__ = u"1.2.1"
 __author__ = u"Frédéric MOHIER"
 __author_email__ = u"frederic.mohier@alignak.net"
 __copyright__ = u"(c) 2015-2017 - %s" % __author__
