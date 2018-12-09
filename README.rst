@@ -18,20 +18,18 @@ Alignak checks package for Mysql
 Installation
 ------------
 
-The installation of this checks pack will copy some configuration files in the Alignak default configuration directory (eg. */usr/local/etc/alignak*). The copied files are located in the default sub-directory used for the packs (eg. *arbiter/packs*).
+The installation of this checks pack will copy some configuration files in the Alignak default configuration directory (eg. */usr/local/share/alignak*). The copied files are located in the default sub-directory used for the packs (eg. *arbiter/packs*).
 
 From PyPI
 ~~~~~~~~~
-To install the package from PyPI:
-::
+To install the package from PyPI::
 
    sudo pip install alignak-checks-mysql
 
 
 From source files
 ~~~~~~~~~~~~~~~~~
-To install the package from the source files:
-::
+To install the package from the source files::
 
    git clone https://github.com/Alignak-monitoring-contrib/alignak-checks-mysql
    cd alignak-checks-linux-mysql
@@ -81,23 +79,20 @@ You must install some PERL dependencies for the *check_mysql_health* script.
 
 Before installing PERL dependencies, you must install the mysql/mariadb client for your operating system.
 
-On FreeBSD, you can:
-::
+On FreeBSD, you can::
 
     pkg install mariadb102-client
     cpan install DBI
     cpan install DBD::mysql
 
-On some Linux distros, you can:
-::
+On some Linux distros, you can::
 
    su -
    apt-get install mariadb-client
    apt-get install dbi-perl
    apt-get install dbd-mysql-perl
 
-Or you can use the PERL *cpan* utility:
-::
+Or you can use the PERL *cpan* utility::
 
     cpan install DBI
     cpan install DBD::mysql
@@ -108,8 +103,7 @@ Or you can use the PERL *cpan* utility:
 Alignak configuration
 ~~~~~~~~~~~~~~~~~~~~~
 
-You simply have to tag the concerned hosts with the template `mysql`.
-::
+You simply have to tag the concerned hosts with the template `mysql`.::
 
     define host{
         use                     mysql
@@ -117,14 +111,19 @@ You simply have to tag the concerned hosts with the template `mysql`.
         address                 127.0.0.1
     }
 
-The main `mysql` template declares macros used to configure the launched checks. The default values of these macros listed hereunder can be overriden in each host configuration.
-::
+Set the MySql connection credentials in the *resource.d/mysql.cfg* or declare the variables in each host.::
+
+   #-- MySQL default credentials
+   $MYSQLUSER$=alignak
+   $MYSQLPASSWORD$=alignak
+
+The main `mysql` template declares macros used to configure the launched checks. The default values of these macros listed hereunder can be overriden in each host configuration.::
 
     _MYSQLUSER                      $MYSQLUSER$
     _MYSQLPASSWORD                  $MYSQLPASSWORD$
 
-    _UPTIME_WARN		            10:
-    _UPTIME_CRIT		             5:
+    _UPTIME_WARN		               10:
+    _UPTIME_CRIT		               5:
     _CONNECTIONTIME_WARN             1
     _CONNECTIONTIME_CRIT             5
     _QUERYCACHEHITRATE_WARN         90:
@@ -161,18 +160,17 @@ The main `mysql` template declares macros used to configure the launched checks.
     _THREADCACHEHITRATE_CRIT        95:
 
 
-To set a specific value for an host, declare the same macro in the host definition file.
-::
+To set a specific value for an host, declare the same macro in the host definition file.::
 
    define host{
-        use                     mysql
-        contact_groups          admins
-        host_name               my_host
-        address                 192.168.0.16
+      use                     mysql
+      contact_groups          admins
+      host_name               my_host
+      address                 192.168.0.16
 
-        # Specific values for this host
-        _MYSQLUSER              root
-        _MYSQLPASSWORD          root_pwd
+      # Specific values for this host
+      _MYSQLUSER              root
+      _MYSQLPASSWORD          root_pwd
    }
 
 
